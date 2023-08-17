@@ -3,26 +3,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <title>assc-art-web</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 
-<body> 
-    <fieldset>
+<body>
+    <div id="container">
+<div id="header">
+    <h1>Welcome To Our Website</h1>
+</div>
+<div id="form">
 <form method="POST" action="/submit-form">
-    <label for="text">enter your text:</label>
+    <label for="text">Enter your text:</label>
     <br><br>
     <input type="text" id="text" name="thetext">
     <br><br>
     <select name="chose" id="chose">
-        <option value="thinkertoy">thinkertoy</option>
-        <option value="standard">standard</option>
-        <option value="shadow">shadow</option>
+        <option value="thinkertoy">Thinkertoy</option>
+        <option value="standard">Standard</option>
+        <option value="shadow">Shadow</option>
     </select>
-    <input type="submit" value="submit">
-    <input type="reset" value="rest">
+    <input id="submit" type="submit" value="submit"> 
+    <input id="rest" type="reset" value="rest">
 </form>
-    </fieldset>
+{{.Output}}
+</div>
+<div id="footer">Created By: Ruqaya Helal, Maryam Abbas</div>
+</div>
 </body>
 
 </html>

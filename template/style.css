@@ -1,0 +1,13 @@
+body{margin:0;padding:0;border:none; font-family:Candara;overflow:scroll}
+#container{height:90%;}
+
+#header {height:15% ;width:100% ;background-color:hsl(0, 52%, 76%);font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
+
+#form {height:85%; padding:4%; width:30%;margin-right:25%}
+#form p{font-size:27px;font-weight:bold;padding-bottom:3%;color:hsl(0, 52%, 76%)}
+#form button{border-radius:27px;border-style:none;background-color:hsl(0, 52%, 76%);opacity:0.4;color:Black;margin-top:4%;height:7%;width:10%;font-size:23px}
+#form input{border-radius:20px;border-style:none;background-color:hsl(0, 52%, 76%);opacity:0.4;color:Black;height:9%;width:80%;font-size:23px; border:1px solid black}
+#submit {width:300px ;height:70px ;font-size:2em;margin-left:2%}
+#rest {width:300px ;height:70px ;font-size:2em;margin-left:2%}
+
+#footer {height:5% ;width:60% ;background-color:white ;opacity:0.8; padding-right:20%; padding-left:20%; font-size:20; padding-top:1%;float:left;clear:left; margin-bottom:1%}

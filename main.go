@@ -30,7 +30,7 @@ func main() {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	var Words [][]string
-	Text1 := strings.ReplaceAll( r.FormValue("thetext"), "\\t", "   ")
+	Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
 	for j := 0; j < len(Text1); j++ {
 		Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
 	}
