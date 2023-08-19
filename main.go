@@ -4,52 +4,86 @@ import (
 	"bufio"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"os"
 	"strings"
 )
 
-type PageData struct {
-	Output [][]string
-}
-
-var tmplt *template.Template
+// type PageData struct {
+// 	Output string
+// }
 
 func main() {
-	serverfile := http.FileServer(http.Dir("./template"))
-	http.Handle("/", serverfile)
-	fmt.Println("Starting server....")
-	http.HandleFunc("/submit-form", handler)
-	err := http.ListenAndServe(":8088", nil)
-	if err != nil {
-		log.Fatalln("There's an error with the server:", err)
-	}
+	/*
+		serverfile := http.FileServer(http.Dir("./template"))
+		http.Handle("/", serverfile)
+		http.HandleFunc("/submit-form", handler)
+		err := http.ListenAndServe(":8088", nil)
+		if err != nil {
+			log.Fatalln("There's an error with the server:", err)
+		}
+	*/
+	http.HandleFunc("/", serveIndex)
+	http.ListenAndServe(":8080", nil)
 
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	var Words [][]string
-	Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
-	for j := 0; j < len(Text1); j++ {
-		Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
-	}
-	_, err := template.New("foo").Parse("Hello")
-	err = r.ParseForm()
-	if err != nil {
-		fmt.Print(w, "error 404")
+func serveIndex(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		fmt.Fprint(w, "page not found (cutom message)")
 		return
 	}
 
+	var Words [][]string
+	Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
+
+	for j := 0; j < len(Text1); j++ {
+		Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
+	}
+	var b [8]string
 	for x := 0; x < 8; x++ {
 		for n := 0; n < len(Words); n++ {
-			fmt.Fprintf(w, Words[n][x])
-		}
-		if x+1 != 8 {
-			fmt.Fprintf(w, "\n")
+			b[x] += Words[n][x]
 		}
 	}
-	fmt.Fprintf(w, "\n")
+
+	indexTemplate, _ := template.ParseFiles("template/index.html")
+
+	if r.Method == http.MethodPost {
+		err := indexTemplate.Execute(w, b)
+		if err != nil {
+			fmt.Print(err)
+		}
+		return
+	}
+
+	err := indexTemplate.Execute(w, template.HTML(``))
+	if err != nil {
+		fmt.Print(err)
+	}
+}
+
+func serveForm(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != http.MethodPost {
+		fmt.Fprint(w, "bad use")
+		return
+	}
+
+	// var Words [][]string
+	// Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
+	// for j := 0; j < len(Text1); j++ {
+	// 	Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
+	// }
+
+	/*
+		err = r.ParseForm()
+		if err != nil {
+			fmt.Print(w, "error 404")
+			return
+		}
+	*/
+
 }
 
 func ReadLetter(Text1 byte, fileName string) []string {
