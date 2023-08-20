@@ -9,27 +9,20 @@ import (
 	"strings"
 )
 
-// type PageData struct {
-// 	Output string
-// }
-
 func main() {
 	/*
-		serverfile := http.FileServer(http.Dir("./template"))
-		http.Handle("/", serverfile)
 		http.HandleFunc("/submit-form", handler)
-		err := http.ListenAndServe(":8088", nil)
 		if err != nil {
 			log.Fatalln("There's an error with the server:", err)
 		}
 	*/
-	http.HandleFunc("/", serveIndex)
+	http.Handle("/", http.FileServer(http.Dir("./template")))
+	http.HandleFunc("/v", serveIndex)
 	http.ListenAndServe(":8080", nil)
-
 }
 
 func serveIndex(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
+	if r.URL.Path != "/v" {
 		fmt.Fprint(w, "page not found (cutom message)")
 		return
 	}
@@ -56,8 +49,8 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
-	err := indexTemplate.Execute(w, template.HTML(``))
+	var c []string
+	err := indexTemplate.Execute(w, c)
 	if err != nil {
 		fmt.Print(err)
 	}

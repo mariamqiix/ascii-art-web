@@ -1,13 +1,16 @@
-body{margin:0;padding:0;border:none; font-family:Candara;overflow:scroll}
-#container{height:90%;}
+body{margin:0;padding:0;border:none; font-family:'Lexend Deca'; background-color: #f1f0e8;}
+/* overflow:scroll */
+#container{height:90%;margin:0;padding:0}
 
-#header {height:15% ;width:100% ;background-color:hsl(0, 52%, 76%);font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
+#header {height:15% ;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
 
-#form {height:85%; padding:4%; width:30%;margin-right:25%}
-#form p{font-size:27px;font-weight:bold;padding-bottom:3%;color:hsl(0, 52%, 76%)}
-#form button{border-radius:27px;border-style:none;background-color:hsl(0, 52%, 76%);opacity:0.4;color:Black;margin-top:4%;height:7%;width:10%;font-size:23px}
-#form input{border-radius:20px;border-style:none;background-color:hsl(0, 52%, 76%);opacity:0.4;color:Black;height:9%;width:80%;font-size:23px; border:1px solid black}
-#submit {width:300px ;height:70px ;font-size:2em;margin-left:2%}
-#rest {width:300px ;height:70px ;font-size:2em;margin-left:2%}
+#form{float:left; height:100%; padding:4%; width: 40%;}
+#output{float:right; height:100%; padding:4%; width:40%;color:adc4ce}
 
-#footer {height:5% ;width:60% ;background-color:white ;opacity:0.8; padding-right:20%; padding-left:20%; font-size:20; padding-top:1%;float:left;clear:left; margin-bottom:1%}
+#form p{font-size:27px;font-weight:bold;padding-bottom:3%;color:#adc4ce}
+#text{border-radius:20px;border-style:none;background-color:#adc4ce;color:Black;height:70%;width:50%;font-size:23px;text-align:center}
+#chose{text-align:center;border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
+#submit{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
+#reset{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
+
+#footer {height:5% ;width:100% ;border-top:10px solid #96b6c5;padding-left:35%; font-size:20; padding-top:1%;float:left;clear:left; margin-top:3%; }
