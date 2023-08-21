@@ -10,12 +10,6 @@ import (
 )
 
 func main() {
-	/*
-		http.HandleFunc("/submit-form", handler)
-		if err != nil {
-			log.Fatalln("There's an error with the server:", err)
-		}
-	*/
 	http.Handle("/", http.FileServer(http.Dir("./template")))
 	http.HandleFunc("/v", serveIndex)
 	http.ListenAndServe(":8080", nil)
@@ -40,10 +34,10 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 			for n := 0; n < len(Words); n++ {
 				Lines += Words[n][x]
 			}
-			b = append(b, Lines) //&nbsp;
+			b = append(b, Lines)
 		}
 	}
-	newB := strings.Join(b,"\n")
+	newB := strings.Join(b, "\n")
 	var n []string
 	n = append(n, newB)
 	// for i := range b {
@@ -57,34 +51,11 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	var c []string
-	err := indexTemplate.Execute(w, c)
-	if err != nil {
-		fmt.Print(err)
-	}
-}
-
-func serveForm(w http.ResponseWriter, r *http.Request) {
-
-	if r.Method != http.MethodPost {
-		fmt.Fprint(w, "bad use")
-		return
-	}
-
-	// var Words [][]string
-	// Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
-	// for j := 0; j < len(Text1); j++ {
-	// 	Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
+	// var c []string
+	// err := indexTemplate.Execute(w, c)
+	// if err != nil {
+	// 	fmt.Print(err)
 	// }
-
-	/*
-		err = r.ParseForm()
-		if err != nil {
-			fmt.Print(w, "error 404")
-			return
-		}
-	*/
-
 }
 
 func ReadLetter(Text1 byte, fileName string) []string {
@@ -108,3 +79,26 @@ func ReadLetter(Text1 byte, fileName string) []string {
 	ReadFile.Close()
 	return Letter
 }
+
+// func serveForm(w http.ResponseWriter, r *http.Request) {
+
+// 	if r.Method != http.MethodPost {
+// 		fmt.Fprint(w, "bad use")
+// 		return
+// 	}
+
+// 	// var Words [][]string
+// 	// Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
+// 	// for j := 0; j < len(Text1); j++ {
+// 	// 	Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
+// 	// }
+
+// 	/*
+// 		err = r.ParseForm()
+// 		if err != nil {
+// 			fmt.Print(w, "error 404")
+// 			return
+// 		}
+// 	*/
+
+// }
