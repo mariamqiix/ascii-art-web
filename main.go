@@ -43,13 +43,15 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 			b = append(b, Lines) //&nbsp;
 		}
 	}
+	newB := strings.Join(b,"\n")
+	var n []string
+	n = append(n, newB)
 	// for i := range b {
 	// 	b[i] = html.UnescapeString(b[i])
 	// }
 	indexTemplate, _ := template.ParseFiles("template/index.html")
-
 	if r.Method == http.MethodPost {
-		err := indexTemplate.Execute(w, b)
+		err := indexTemplate.Execute(w, n)
 		if err != nil {
 			fmt.Print(err)
 		}

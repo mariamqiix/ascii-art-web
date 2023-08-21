@@ -1,6 +1,5 @@
 body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: sans-serif;}
 #container{height:90%;margin:0;padding:0}
-
 #header {height:15% ;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
 
 #form{float:left; height:100%; padding:4%; width: 40%;}

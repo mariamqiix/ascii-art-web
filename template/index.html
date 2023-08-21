@@ -5,23 +5,27 @@
     <title>assc-art-web</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
-
+<br>
 <body>
     <div id="container">
 <div id="header">
     <h1>Ascii Art Web</h1>
+    <br>
 </div>
+<br><br><br>
 <div id="form">
 <form method="POST" action="/v">
     <label for="text">Enter your text:</label>
     <br><br>
-    <input type="text" id="text" name="thetext">
+    <input type="text" id="text" name="thetext"> 
+<!-- </textarea> -->
     <br><br>
     <select name="chose" id="chose">
         <option value="standard">Standard</option>
         <option value="thinkertoy">Thinkertoy</option>
         <option value="shadow">Shadow</option>
-    </select>
+    </select>    
+   
     <input id="submit" type="submit" value="Submit"> 
     <input id="reset" type="reset" value="Reset">
 </form>
@@ -31,7 +35,7 @@
 
 <div id="output">
 <!-- {{range .}} -->
-{{.}}<br>
+<pre>{{.}}</pre>
 <!-- {{end}} -->
 
 </div>
