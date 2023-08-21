@@ -1,5 +1,4 @@
-body{margin:0;padding:0;border:none; font-family:'Lexend Deca'; background-color: #f1f0e8;}
-/* overflow:scroll */
+body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: sans-serif;}
 #container{height:90%;margin:0;padding:0}
 
 #header {height:15% ;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
@@ -7,7 +6,7 @@ body{margin:0;padding:0;border:none; font-family:'Lexend Deca'; background-color
 #form{float:left; height:100%; padding:4%; width: 40%;}
 #output{float:right; height:100%; padding:4%; width:40%;color:adc4ce}
 
-#form p{font-size:27px;font-weight:bold;padding-bottom:3%;color:#adc4ce}
+#form p{color:#adc4ce}
 #text{border-radius:20px;border-style:none;background-color:#adc4ce;color:Black;height:70%;width:50%;font-size:23px;text-align:center}
 #chose{text-align:center;border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
 #submit{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}

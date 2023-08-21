@@ -26,20 +26,26 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "page not found (cutom message)")
 		return
 	}
+	WordsInArr := strings.Split(r.FormValue("thetext"), "\\n")
 
-	var Words [][]string
-	Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
-
-	for j := 0; j < len(Text1); j++ {
-		Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
-	}
-	var b [8]string
-	for x := 0; x < 8; x++ {
-		for n := 0; n < len(Words); n++ {
-			b[x] += Words[n][x]
+	var b []string
+	for l := 0; l < len(WordsInArr); l++ {
+		var Words [][]string
+		Text1 := strings.ReplaceAll(WordsInArr[l], "\\t", "   ")
+		for j := 0; j < len(Text1); j++ {
+			Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
+		}
+		for x := 0; x < 8; x++ {
+			Lines := ""
+			for n := 0; n < len(Words); n++ {
+				Lines += Words[n][x]
+			}
+			b = append(b, Lines) //&nbsp;
 		}
 	}
-
+	// for i := range b {
+	// 	b[i] = html.UnescapeString(b[i])
+	// }
 	indexTemplate, _ := template.ParseFiles("template/index.html")
 
 	if r.Method == http.MethodPost {
