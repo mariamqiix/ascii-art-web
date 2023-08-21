@@ -20,7 +20,7 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "page not found (cutom message)")
 		return
 	}
-	WordsInArr := strings.Split(r.FormValue("thetext"), "\\n")
+	WordsInArr := strings.Split(r.FormValue("thetext"), "\r\n")
 
 	var b []string
 	for l := 0; l < len(WordsInArr); l++ {
