@@ -20,7 +20,18 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "page not found (cutom message)")
 		return
 	}
-	WordsInArr := strings.Split(r.FormValue("thetext"), "\r\n")
+	text := r.FormValue("thetext")
+	if len(text)>100 {
+		fmt.Fprint(w, "لاتكثر كلام")
+		return
+	}
+	_ , error := os.Stat(r.FormValue("chose")+".txt")
+	// check if error is "file not exists"
+	if os.IsNotExist(error) {
+		fmt.Fprint(w,r.FormValue("chose")+"file does not exist\n")
+		return
+	}
+	WordsInArr := strings.Split(text, "\r\n")
 
 	var b []string
 	for l := 0; l < len(WordsInArr); l++ {
