@@ -52,6 +52,7 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	for l := 0; l < len(WordsInArr); l++ {
 		var Words [][]string
 		Text1 := strings.ReplaceAll(WordsInArr[l], "\\t", "   ")
+		if Text1 != "" {
 		for j := 0; j < len(Text1); j++ {
 			Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
 		}
@@ -61,6 +62,8 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 				Lines += Words[n][x]
 			}
 			b = append(b, Lines)
+		}} else {
+			b = append(b, "\n")
 		}
 	}
 	newB := strings.Join(b, "\n")
