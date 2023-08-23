@@ -2,7 +2,7 @@ body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: san
 
 #header {height:15%;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; padding-top:1%}
 #colorLetter{color: #96b6c5;}
-#continer{height: 80%; width: 100%;float: left; clear: left;}
+#continer{max-height: 60%; width: 100%;float: left; clear: left; flex: auto;}
 
 #formOption{float:left; clear: left; height:92%; padding:4%; width: 42%;}
 #text{border-radius:20px;border-style:none;background-color:#adc4ce;color:black;font-size:23px;text-align:center}
@@ -11,6 +11,6 @@ body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: san
 
 #ErrorMsg{padding: 10%;padding-top: 10%;width: 80%;height:80%;}
 
-#output{float:left; height:45%; padding:2%; width:43%; border:1px solid #96b6c5; overflow:scroll; margin: 1%;}
+#output{float:left; max-height:45%; padding:2%; width:43%; border:1px solid #96b6c5; overflow:scroll; margin: 1%;}
 
 #footer {height:5% ;width:96% ;border-top:10px solid #96b6c5; font-size:20; padding-top:1%;float:left;clear:left; margin-bottom:1%; padding: 2%;text-align:center}

@@ -10,76 +10,78 @@ import (
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./template")))
-	http.HandleFunc("/v", serveIndex)
+	http.HandleFunc("/", Handler)
 	http.ListenAndServe(":8080", nil)
 }
 
-// func Handler(w http.ResponseWriter, r *http.Request) {
-// 	if r.URL.Path != "/" {
-// 		http.ServeFile(w, r, "./template/404.html")
-// 	} else {
-// 		http.ServeFile(w, r, "./template/index.html")
-// 	}
-// }
-
-func serveIndex(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/v" && r.URL.Path != "/" {
+func Handler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/style.css" {
+		http.ServeFile(w, r, "./template/style.css")
+		return
+	} else if r.URL.Path != "/" {
+		w.WriteHeader(http.StatusNotFound)
 		http.ServeFile(w, r, "./template/404.html")
 		return
-	}
-
-	// if r.URL.Path == "/" {
-	// 	http.ServeFile(w, r, "./template/index.html")
-	// } else {
-	// 	http.ServeFile(w, r, "./template/404.html")
-	// }
-
-	text := r.FormValue("thetext")
-	if len(text) > 100 {
+	} else if r.Method == "GET" {
+		indexTemplate, _ := template.ParseFiles("template/index.html")
+		indexTemplate.Execute(w, r)
+		return
+	} else if r.Method != "POST" {
+		w.WriteHeader(http.StatusBadRequest)
+		http.ServeFile(w, r, "./template/400.html") // should be 400
+		return
+	} else if len(r.FormValue("thetext")) > 100 {
+		w.WriteHeader(http.StatusInternalServerError)
 		http.ServeFile(w, r, "template/500.html")
 		return
 	}
 	_, error := os.Stat(r.FormValue("chose") + ".txt")
-	// check if error is "file not exists"
 	if os.IsNotExist(error) {
-		http.ServeFile(w, r, "template/404.html")
+		w.WriteHeader(http.StatusNotFound)
+		http.ServeFile(w, r, "./template/404.html")
+		return
+	} else if !CheckLetter(r.FormValue("thetext")) {
+		w.WriteHeader(http.StatusInternalServerError)
+		http.ServeFile(w, r, "template/500.html")
 		return
 	}
-	WordsInArr := strings.Split(text, "\r\n")
 
-	var b []string
-	for l := 0; l < len(WordsInArr); l++ {
-		var Words [][]string
-		Text1 := strings.ReplaceAll(WordsInArr[l], "\\t", "   ")
-		if Text1 != "" {
-		for j := 0; j < len(Text1); j++ {
-			Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
-		}
-		for x := 0; x < 8; x++ {
-			Lines := ""
-			for n := 0; n < len(Words); n++ {
-				Lines += Words[n][x]
-			}
-			b = append(b, Lines)
-		}} else {
-			b = append(b, "\n")
-		}
-	}
-	newB := strings.Join(b, "\n")
-	var n []string
-	n = append(n, newB)
+	TextInASCII := serveIndex(r.FormValue("thetext"), r.FormValue("chose"))
 	indexTemplate, _ := template.ParseFiles("template/index.html")
-	if r.Method == "POST"{
-		err := indexTemplate.Execute(w, n)
+	if r.Method == "POST" {
+		err := indexTemplate.Execute(w, TextInASCII)
 		if err != nil {
 			fmt.Print(err)
 		}
 		return
-	} else {
-		http.ServeFile(w, r, "template/400.html")
-		return
 	}
+}
+
+func serveIndex(text, filename string) []string {
+	WordsInArr := strings.Split(text, "\r\n")
+	var Text []string
+	for l := 0; l < len(WordsInArr); l++ {
+		var Words [][]string
+		Text1 := strings.ReplaceAll(WordsInArr[l], "\\t", "   ")
+		if Text1 != "" {
+			for j := 0; j < len(Text1); j++ {
+				Words = append(Words, ReadLetter(Text1[j], filename))
+			}
+			for x := 0; x < 8; x++ {
+				Lines := ""
+				for n := 0; n < len(Words); n++ {
+					Lines += Words[n][x]
+				}
+				Text = append(Text, Lines)
+			}
+		} else {
+			Text = append(Text, "\n")
+		}
+	}
+	Line := strings.Join(Text, "\n")
+	var Words []string
+	Words = append(Words, Line)
+	return Words
 }
 
 func ReadLetter(Text1 byte, fileName string) []string {
@@ -102,4 +104,13 @@ func ReadLetter(Text1 byte, fileName string) []string {
 	}
 	ReadFile.Close()
 	return Letter
+}
+
+func CheckLetter(s string) bool {
+	for g := 0; g < len(s); g++ {
+		if s[g] > 126 || s[g] < 32 {
+			return false
+		}
+	}
+	return true
 }
