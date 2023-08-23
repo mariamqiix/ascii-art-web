@@ -1,14 +1,16 @@
-body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: sans-serif;}
-#container{height:90%;margin:0;padding:0}
-#header {height:15% ;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; margin-top:1%}
+body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: sans-serif;height: 100%;width: 100%;}
 
-#form{float:left; height:100%; padding:4%; width: 40%;}
-#output{float:right; height:100%; padding:4%; width:40%;color:adc4ce}
+#header {height:15%;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; padding-top:1%}
+#colorLetter{color: #96b6c5;}
+#continer{height: 80%; width: 100%;float: left; clear: left;}
 
-#form p{color:#adc4ce}
-#text{border-radius:20px;border-style:none;background-color:#adc4ce;color:Black;height:70%;width:50%;font-size:23px;text-align:center}
-#chose{text-align:center;border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
-#submit{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
-#reset{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;margin-top:4%;height:7%;width:30%;font-size:23px}
+#formOption{float:left; clear: left; height:92%; padding:4%; width: 42%;}
+#text{border-radius:20px;border-style:none;background-color:#adc4ce;color:black;font-size:23px;text-align:center}
+#chose{text-align:center;border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;height:10%;width:30%;font-size:23px}
+#bottons{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;height:10%;width:30%;font-size:23px}
 
-#footer {height:5% ;width:100% ;border-top:10px solid #96b6c5;padding-left:35%; font-size:20; padding-top:1%;float:left;clear:left; margin-top:3%; }
+#ErrorMsg{padding: 10%;padding-top: 10%;width: 80%;height:80%;}
+
+#output{float:left; height:45%; padding:2%; width:43%; border:1px solid #96b6c5; overflow:scroll; margin: 1%;}
+
+#footer {height:5% ;width:96% ;border-top:10px solid #96b6c5; font-size:20; padding-top:1%;float:left;clear:left; margin-bottom:1%; padding: 2%;text-align:center}

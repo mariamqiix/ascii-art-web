@@ -15,20 +15,35 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
+// // func Handler(w http.ResponseWriter, r *http.Request) {
+// 	if r.URL.Path != "/" {
+// 		http.ServeFile(w, r, "./template/404.html")
+// 	} else {
+// 		http.ServeFile(w, r, "./template/index.html")
+// 	}
+// }
+
 func serveIndex(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/v" {
-		fmt.Fprint(w, "page not found (cutom message)")
+	if r.URL.Path != "/v" && r.URL.Path != "/" {
+		http.ServeFile(w, r, "./template/404.html")
 		return
 	}
+
+	// if r.URL.Path == "/" {
+	// 	http.ServeFile(w, r, "./template/index.html")
+	// } else {
+	// 	http.ServeFile(w, r, "./template/404.html")
+	// }
+
 	text := r.FormValue("thetext")
-	if len(text)>100 {
+	if len(text) > 100 {
 		fmt.Fprint(w, "لاتكثر كلام")
 		return
 	}
-	_ , error := os.Stat(r.FormValue("chose")+".txt")
+	_, error := os.Stat(r.FormValue("chose") + ".txt")
 	// check if error is "file not exists"
 	if os.IsNotExist(error) {
-		fmt.Fprint(w,r.FormValue("chose")+"file does not exist\n")
+		fmt.Fprint(w, r.FormValue("chose")+"file does not exist\n")
 		return
 	}
 	WordsInArr := strings.Split(text, "\r\n")
@@ -51,9 +66,6 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	newB := strings.Join(b, "\n")
 	var n []string
 	n = append(n, newB)
-	// for i := range b {
-	// 	b[i] = html.UnescapeString(b[i])
-	// }
 	indexTemplate, _ := template.ParseFiles("template/index.html")
 	if r.Method == http.MethodPost {
 		err := indexTemplate.Execute(w, n)
@@ -61,12 +73,10 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 			fmt.Print(err)
 		}
 		return
+	} else {
+		http.ServeFile(w, r, "./template/400.html")
+		return
 	}
-	// var c []string
-	// err := indexTemplate.Execute(w, c)
-	// if err != nil {
-	// 	fmt.Print(err)
-	// }
 }
 
 func ReadLetter(Text1 byte, fileName string) []string {
@@ -90,26 +100,3 @@ func ReadLetter(Text1 byte, fileName string) []string {
 	ReadFile.Close()
 	return Letter
 }
-
-// func serveForm(w http.ResponseWriter, r *http.Request) {
-
-// 	if r.Method != http.MethodPost {
-// 		fmt.Fprint(w, "bad use")
-// 		return
-// 	}
-
-// 	// var Words [][]string
-// 	// Text1 := strings.ReplaceAll(r.FormValue("thetext"), "\\t", "   ")
-// 	// for j := 0; j < len(Text1); j++ {
-// 	// 	Words = append(Words, ReadLetter(Text1[j], r.FormValue("chose")))
-// 	// }
-
-// 	/*
-// 		err = r.ParseForm()
-// 		if err != nil {
-// 			fmt.Print(w, "error 404")
-// 			return
-// 		}
-// 	*/
-
-// }
