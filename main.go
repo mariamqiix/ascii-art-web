@@ -37,13 +37,13 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 
 	text := r.FormValue("thetext")
 	if len(text) > 100 {
-		fmt.Fprint(w, "لاتكثر كلام")
+		http.ServeFile(w, r, "template/500.html")
 		return
 	}
 	_, error := os.Stat(r.FormValue("chose") + ".txt")
 	// check if error is "file not exists"
 	if os.IsNotExist(error) {
-		fmt.Fprint(w, r.FormValue("chose")+"file does not exist\n")
+		http.ServeFile(w, r, "template/404.html")
 		return
 	}
 	WordsInArr := strings.Split(text, "\r\n")
@@ -67,14 +67,14 @@ func serveIndex(w http.ResponseWriter, r *http.Request) {
 	var n []string
 	n = append(n, newB)
 	indexTemplate, _ := template.ParseFiles("template/index.html")
-	if r.Method == http.MethodPost {
+	if r.Method == "POST"{
 		err := indexTemplate.Execute(w, n)
 		if err != nil {
 			fmt.Print(err)
 		}
 		return
 	} else {
-		http.ServeFile(w, r, "./template/400.html")
+		http.ServeFile(w, r, "template/400.html")
 		return
 	}
 }
