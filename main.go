@@ -10,18 +10,18 @@ import (
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./template")))
+	http.HandleFunc("/", Handler)
 	http.HandleFunc("/v", serveIndex)
 	http.ListenAndServe(":8080", nil)
 }
 
-// // func Handler(w http.ResponseWriter, r *http.Request) {
-// 	if r.URL.Path != "/" {
-// 		http.ServeFile(w, r, "./template/404.html")
-// 	} else {
-// 		http.ServeFile(w, r, "./template/index.html")
-// 	}
-// }
+func Handler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.ServeFile(w, r, "./template/404.html")
+	} else {
+		http.ServeFile(w, r, "./template/index.html")
+	}
+}
 
 func serveIndex(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/v" && r.URL.Path != "/" {
