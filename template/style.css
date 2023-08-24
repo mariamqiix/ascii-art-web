@@ -18,7 +18,7 @@ body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family:"Cou
     background-color:#adc4ce;height:10%;width:20%;font-size:1.2em;padding: 1%;}
 
 #ErrorMsg{padding: 10%;width: 80%;height:80%;}
-
+#ErrorMsg2{color: #96b6c5;}
 #output{padding:4%; width:42%;height: 50%;float:left; max-height:60%;overflow:auto;
      text-overflow:ellipsis;white-space:nowrap;} 
 

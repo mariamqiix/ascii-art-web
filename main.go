@@ -31,20 +31,25 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	} else if len(r.FormValue("thetext")) > 100 {
 		w.WriteHeader(http.StatusInternalServerError)
-		http.ServeFile(w, r, "template/500.html")
+		http.ServeFile(w, r, "template/400.html")
 		return
 	}
 	_, error := os.Stat(r.FormValue("chose") + ".txt")
 	if os.IsNotExist(error) {
 		w.WriteHeader(http.StatusNotFound)
-		http.ServeFile(w, r, "./template/404.html")
+		http.ServeFile(w, r, "./template/500.html")
 		return
 	}
-	// if !CheckLetter(r.FormValue("thetext")) {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	http.ServeFile(w, r, "template/500.html")
-	// 	return
-	// }
+	if r.FormValue("thetext") == "" {
+		w.WriteHeader(http.StatusInternalServerError)
+		http.ServeFile(w, r, "template/400.html")
+		return
+	}
+	if !CheckLetter(r.FormValue("thetext")) {
+		w.WriteHeader(http.StatusInternalServerError)
+		http.ServeFile(w, r, "template/400.html")
+		return
+	}
 
 	TextInASCII := serveIndex(r.FormValue("thetext"), r.FormValue("chose"))
 	indexTemplate, _ := template.ParseFiles("template/index.html")
@@ -107,9 +112,12 @@ func ReadLetter(Text1 byte, fileName string) []string {
 }
 
 func CheckLetter(s string) bool {
-	for g := 0; g < len(s); g++ {
-		if s[g] > 126 || s[g] < 32 {
-			return false
+	WordsInArr := strings.Split(s, "\r\n")
+	for l := 0; l < len(WordsInArr); l++ {
+		for g := 0; g < len(WordsInArr[l]); g++ {
+			if WordsInArr[l][g] > 126 || WordsInArr[l][g] < 32 {
+				return false
+			}
 		}
 	}
 	return true
