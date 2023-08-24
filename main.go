@@ -6,8 +6,14 @@ import (
 	"html/template"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
+
+type PageData struct {
+	Color string
+	Text  []string
+}
 
 func main() {
 	http.HandleFunc("/", Handler)
@@ -23,7 +29,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./template/404.html")
 		return
 	} else if r.Method == "GET" {
-		http.ServeFile(w, r, "./template/index.html")
+		indexTemplate, _ := template.ParseFiles("template/index.html")
+		var v []string
+		pageData := PageData{
+			Text:  v,
+			Color: "black",
+		}
+		indexTemplate.Execute(w, pageData)
 		return
 	} else if r.Method != "POST" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -50,11 +62,24 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "template/400.html")
 		return
 	}
+	if !CheckColor(r.FormValue("color")) {
+		w.WriteHeader(http.StatusBadRequest)
+		http.ServeFile(w, r, "./template/400.html")
+		return
+	}
 
 	TextInASCII := serveIndex(r.FormValue("thetext"), r.FormValue("chose"))
 	indexTemplate, _ := template.ParseFiles("template/index.html")
 	if r.Method == "POST" {
-		err := indexTemplate.Execute(w, TextInASCII)
+		color := "black"
+		if r.FormValue("color") != "#f1f0e8" {
+			color = r.FormValue("color")
+		}
+		pageData := PageData{
+			Text:  TextInASCII,
+			Color: color,
+		}
+		err := indexTemplate.Execute(w, pageData)
 		if err != nil {
 			fmt.Print(err)
 		}
@@ -121,4 +146,32 @@ func CheckLetter(s string) bool {
 		}
 	}
 	return true
+}
+
+func CheckColor(userValue string) bool {
+	Colors := []string{"red", "green", "yellow", "blue", "purple", "cyan", "white", "black", "orange"}
+	for _, color := range Colors {
+		if color == userValue {
+			return true
+		} else if strings.Index(userValue, "rgb") == 0 && userValue[len(userValue)-1] == ')' {
+			userValue := strings.ReplaceAll(userValue, " ", "")
+			c := (strings.Split(userValue[4:len(userValue)-1], ","))
+			for i := 0; i < len(c); i++ {
+				check, err := strconv.Atoi(c[i])
+				if err != nil || len(c) != 3 || check < 0 || check > 255 {
+					return false
+				}
+			}
+			return false
+		} else if strings.Index(userValue, "#") == 0 && len(userValue) == 7 {
+			for i := 1; i <= 6; i++ {
+				if (userValue[i] >= '0' && userValue[i] <= '9') || (userValue[i] >= 'a' && userValue[i] <= 'f') {
+				} else {
+					return false
+				}
+			}
+			return true
+		}
+	}
+	return false
 }
