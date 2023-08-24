@@ -23,8 +23,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./template/404.html")
 		return
 	} else if r.Method == "GET" {
-		indexTemplate, _ := template.ParseFiles("template/index.html")
-		indexTemplate.Execute(w, r)
+		http.ServeFile(w, r, "./template/index.html")
 		return
 	} else if r.Method != "POST" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -40,11 +39,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		http.ServeFile(w, r, "./template/404.html")
 		return
-	} else if !CheckLetter(r.FormValue("thetext")) {
-		w.WriteHeader(http.StatusInternalServerError)
-		http.ServeFile(w, r, "template/500.html")
-		return
 	}
+	// if !CheckLetter(r.FormValue("thetext")) {
+	// 	w.WriteHeader(http.StatusInternalServerError)
+	// 	http.ServeFile(w, r, "template/500.html")
+	// 	return
+	// }
 
 	TextInASCII := serveIndex(r.FormValue("thetext"), r.FormValue("chose"))
 	indexTemplate, _ := template.ParseFiles("template/index.html")

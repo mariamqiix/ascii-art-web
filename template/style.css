@@ -1,16 +1,27 @@
-body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family: sans-serif;height: 100%;width: 100%;}
-
-#header {height:15%;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.3em;opacity:0.85;text-align:center; padding-top:1%}
+body{margin:0;padding:0;border:none; background-color: #f1f0e8; font-family:"Courier New", Courier, monospace;
+     text-align:center; overflow: scroll;}
 #colorLetter{color: #96b6c5;}
-#continer{max-height: 60%; width: 100%;float: left; clear: left; flex: auto;}
 
-#formOption{float:left; clear: left; height:92%; padding:4%; width: 42%;}
-#text{border-radius:20px;border-style:none;background-color:#adc4ce;color:black;font-size:23px;text-align:center}
-#chose{text-align:center;border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;height:10%;width:30%;font-size:23px}
-#bottons{border-radius:100px;border-style:none;background-color:#adc4ce;color:Black;height:10%;width:30%;font-size:23px}
+#header{height:14%;width:100% ;border-bottom:10px solid #96b6c5;font-size:1.5em; padding-top:1%; 
+    max-height: 15%;font-family: "Brush Script MT","cursive";}
 
-#ErrorMsg{padding: 10%;padding-top: 10%;width: 80%;height:80%;}
+#continer{width: 100%;height: 75%;max-width: 100%;max-height: 75%;}
 
-#output{float:left; max-height:45%; padding:2%; width:43%; border:1px solid #96b6c5; overflow:scroll; margin: 1%;}
+#formOption{float:left;  height: 50%; padding:4%; width: 42%;color:black;max-height:60%;}
+#formOption p{color:red;opacity: 0.4;text-align: left;padding-left: 15%; font-style: italic;}
+#formOption label{font-weight: bold;}
+#text{border-style:none;border-radius:20px;background-color:#adc4ce;text-align:center; 
+    max-height: 80%; max-width: 80%; width: 80%;height: 80%;font-size:1.2em;}
+#chose{border-style:none;border-radius:100px;text-align:center;
+    background-color:#adc4ce;height:10%;width:25%;font-size:1.2em;padding: 1%;}
+#bottons{border-style:none;border-radius:100px;
+    background-color:#adc4ce;height:10%;width:20%;font-size:1.2em;padding: 1%;}
 
-#footer {height:5% ;width:96% ;border-top:10px solid #96b6c5; font-size:20; padding-top:1%;float:left;clear:left; margin-bottom:1%; padding: 2%;text-align:center}
+#ErrorMsg{padding: 10%;width: 80%;height:80%;}
+
+#output{padding:4%; width:42%;height: 50%;float:left; max-height:60%;overflow:auto;
+     text-overflow:ellipsis;white-space:nowrap;} 
+
+#footer{border-top:10px solid #96b6c5; font-size:20; float:left;
+    height:6% ;width:96% ; padding: 2%; max-width: 100%;max-height: 10%;}
+
