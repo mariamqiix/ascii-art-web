@@ -23,19 +23,19 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("thetext")
 	fileName := r.FormValue("chose")
 	_, error := os.Stat(fileName + ".txt")
-	if !CheckLetter(text) {
+	userColor := strings.ToLower(r.FormValue("color"))
+	backgroundColor := CheckBackgroundColor(userColor)
+	indexTemplate, _ := template.ParseFiles("template/index.html")
+	if (!CheckLetter(text) || text == "" || !CheckColor(userColor)) && r.Method == "POST" {
 		w.WriteHeader(http.StatusBadRequest)
 		http.ServeFile(w, r, "./template/400.html")
 		return
-	} else if os.IsNotExist(error) && r.Method != "GET" {
+	} else if (os.IsNotExist(error) || len(r.FormValue("thetext")) > 2000) && r.Method != "GET" {
 		w.WriteHeader(http.StatusInternalServerError)
 		http.ServeFile(w, r, "template/500.html")
 		return
 	}
 	textInASCII := serveIndex(text, fileName)
-	indexTemplate, _ := template.ParseFiles("template/index.html")
-	userColor := strings.ToLower(r.FormValue("color"))
-	backgroundColor := CheckBackgroundColor(userColor)
 	pageData := PageData{
 		Text:      textInASCII,
 		Color:     userColor,
@@ -48,24 +48,17 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		http.ServeFile(w, r, "./template/404.html")
 		return
-	} else if r.Method == "GET" {
-		indexTemplate.Execute(w, pageData)
-		return
-	} else if r.Method != "POST" || text == "" || !CheckColor(userColor) {
-		w.WriteHeader(http.StatusBadRequest)
-		http.ServeFile(w, r, "./template/400.html") // should be 400
-		return
-	} else if len(r.FormValue("thetext")) > 2000 {
-		w.WriteHeader(http.StatusInternalServerError)
-		http.ServeFile(w, r, "template/500.html")
-		return
-	} else if r.Method == "POST" {
+	} else if r.Method == "GET" || r.Method == "POST" {
 		err := indexTemplate.Execute(w, pageData)
 		if err != nil {
 			fmt.Print(err)
 		}
 		return
-	}
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+		http.ServeFile(w, r, "./template/400.html") // should be 400
+		return
+	} 
 }
 
 func serveIndex(text, filename string) []string {
