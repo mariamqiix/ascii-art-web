@@ -20,7 +20,7 @@ func main() {
 }
 
 func CheckBackgroundColor(userColor string) string {
-	Colors := []string{"whitesmoke", "#f5f5f5", "seashell", "#fff5ee", "papayawhip", "#ffefd5",
+	Colors := []string{"whitesmoke","white", "#f5f5f5", "seashell", "#fff5ee", "papayawhip", "#ffefd5",
 		"oldlace", "#fdf5e6", "linen", "#faf0e6", "lightgoldenrodyellow", "#fafad2", "lemonchiffon", "#fffacd",
 		"lavenderblush", "#fff0f5", "cornsilk", "#fff8dc", "blanchedalmond", "#ffebcd", "beige", "#f5f5dc", "antiquewhite",
 		"#faebd7", "#f1f0e8"}
@@ -34,6 +34,11 @@ func CheckBackgroundColor(userColor string) string {
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("thetext")
+	if !CheckLetter(text) {
+		w.WriteHeader(http.StatusNotFound)
+		http.ServeFile(w, r, "./template/404.html")
+		return
+	}
 	fileName := r.FormValue("chose")
 	_, error := os.Stat(fileName + ".txt")
 	textInASCII := serveIndex(text, fileName)
@@ -55,7 +60,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	} else if r.Method == "GET" {
 		indexTemplate.Execute(w, pageData)
 		return
-	} else if r.Method != "POST" || text == "" || !CheckLetter(text) || !CheckColor(userColor) {
+	} else if r.Method != "POST" || text == "" || !CheckColor(userColor) {
 		w.WriteHeader(http.StatusBadRequest)
 		http.ServeFile(w, r, "./template/400.html") // should be 400
 		return
