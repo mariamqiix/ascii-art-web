@@ -21,14 +21,13 @@ func main() {
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("thetext")
+	fileName := r.FormValue("chose")
+	_, error := os.Stat(fileName + ".txt")
 	if !CheckLetter(text) {
 		w.WriteHeader(http.StatusBadRequest)
 		http.ServeFile(w, r, "./template/400.html")
 		return
-	}
-	fileName := r.FormValue("chose")
-	_, error := os.Stat(fileName + ".txt")
-	if os.IsNotExist(error) && r.Method != "GET" {
+	} else if os.IsNotExist(error) && r.Method != "GET" {
 		w.WriteHeader(http.StatusInternalServerError)
 		http.ServeFile(w, r, "template/500.html")
 		return
@@ -56,7 +55,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		http.ServeFile(w, r, "./template/400.html") // should be 400
 		return
-	} else if len(r.FormValue("thetext")) > 2000 || os.IsNotExist(error) {
+	} else if len(r.FormValue("thetext")) > 2000 {
 		w.WriteHeader(http.StatusInternalServerError)
 		http.ServeFile(w, r, "template/500.html")
 		return
