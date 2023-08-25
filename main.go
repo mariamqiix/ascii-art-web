@@ -28,6 +28,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fileName := r.FormValue("chose")
 	_, error := os.Stat(fileName + ".txt")
+	if os.IsNotExist(error) && r.Method != "GET" {
+		w.WriteHeader(http.StatusInternalServerError)
+		http.ServeFile(w, r, "template/500.html")
+		return
+	}
 	textInASCII := serveIndex(text, fileName)
 	indexTemplate, _ := template.ParseFiles("template/index.html")
 	userColor := strings.ToLower(r.FormValue("color"))
@@ -65,8 +70,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func serveIndex(text, filename string) []string {
-	WordsInArr := strings.Split(text, "\r\n")
 	var Text []string
+	WordsInArr := strings.Split(text, "\r\n")
 	var Words []string
 	for l := 0; l < len(WordsInArr); l++ {
 		var Words [][]string
@@ -90,9 +95,9 @@ func serveIndex(text, filename string) []string {
 }
 
 func ReadLetter(Text1 byte, fileName string) []string {
+	var Letter []string
 	ReadFile, _ := os.Open(fileName + ".txt")
 	FileScanner := bufio.NewScanner(ReadFile)
-	var Letter []string
 	stop := 1
 	i := 0
 	letterLength := (int(Text1)-32)*9 + 2
@@ -123,7 +128,7 @@ func CheckLetter(s string) bool {
 }
 
 func CheckColor(userValue string) bool {
-	Colors := []string{"aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", " blue", "blueviolet", "brown",
+	Colors := []string{"aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown",
 		"burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue", "cornsilk", "crimson", "cyan",
 		"darkblue", "darkcyan", "darkgoldenrod", "darkgray", "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen",
 		"darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue", "darkslategray",
