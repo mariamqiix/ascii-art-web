@@ -19,24 +19,11 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func CheckBackgroundColor(userColor string) string {
-	Colors := []string{"whitesmoke", "#f5f5f5", "seashell", "#fff5ee", "papayawhip", "#ffefd5",
-		"oldlace", "#fdf5e6", "linen", "#faf0e6", "lightgoldenrodyellow", "#fafad2", "lemonchiffon", "#fffacd",
-		"lavenderblush", "#fff0f5", "cornsilk", "#fff8dc", "blanchedalmond", "#ffebcd", "beige", "#f5f5dc", "antiquewhite",
-		"#faebd7", "#f1f0e8"}
-	for _, color := range Colors {
-		if color == userColor {
-			return "#f1aeb2"
-		}
-	}
-	return "#f1f0e8"
-}
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("thetext")
 	if !CheckLetter(text) {
-		w.WriteHeader(http.StatusNotFound)
-		http.ServeFile(w, r, "./template/404.html")
+		w.WriteHeader(http.StatusBadRequest)
+		http.ServeFile(w, r, "./template/400.html")
 		return
 	}
 	fileName := r.FormValue("chose")
@@ -50,7 +37,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		Color:     userColor,
 		ColorBack: backgroundColor,
 	}
-	WriteFile(text,fileName)
 	if r.URL.Path == "/style.css" {
 		http.ServeFile(w, r, "./template/style.css")
 		return
@@ -69,8 +55,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		http.ServeFile(w, r, "template/500.html")
 		return
-	}
-	if r.Method == "POST" {
+	} else if r.Method == "POST" {
 		err := indexTemplate.Execute(w, pageData)
 		if err != nil {
 			fmt.Print(err)
@@ -170,15 +155,15 @@ func CheckColor(userValue string) bool {
 	return false
 }
 
-
-
-func WriteFile(s,fileName string) {
-	file, err := os.Create("template/test.txt")
-	if err != nil {
-		fmt.Println("Error \n", err)
-	} else {
-			file.WriteString(serveIndex(s,fileName)[0])
+func CheckBackgroundColor(userColor string) string {
+	Colors := []string{"whitesmoke", "#f5f5f5", "seashell", "#fff5ee", "papayawhip", "#ffefd5",
+		"oldlace", "#fdf5e6", "linen", "#faf0e6", "lightgoldenrodyellow", "#fafad2", "lemonchiffon", "#fffacd",
+		"lavenderblush", "#fff0f5", "cornsilk", "#fff8dc", "blanchedalmond", "#ffebcd", "beige", "#f5f5dc", "antiquewhite",
+		"#faebd7", "#f1f0e8"}
+	for _, color := range Colors {
+		if color == userColor {
+			return "#f1aeb2"
+		}
 	}
-	file.Close()
+	return "#f1f0e8"
 }
-

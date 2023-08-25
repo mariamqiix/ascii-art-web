@@ -9,7 +9,7 @@ On the left side of the page you can see textarea (the first box) here you can w
 
 Also, you can change the color from black to any color you want that is available in CSS, or any #hex color code. This link has all the colors that you can use by name in CSS: https://www.w3.org/wiki/CSS/Properties/color/keywords
 
-Press the "submit" button if you finish writing your text and choosing the font type and color. Also, you can press the "Reset" button to clear the text and return the color to the default (black). 
+Press the "submit" button if you finish writing your text and choosing the font type and color.
 Results will be printed on the right side of the web.
 
 * Implementation details: algorithm: HTTP Get and Post methods
